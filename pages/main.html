@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link href="../styles/main.css" type="text/css" rel="stylesheet">
+   <link href="../styles/delete_task_modal.css" rel="stylesheet">
+   <title>To Do List</title>
+</head>
+<body>
+    <header></header>     
+
+    <section class="no-tasks">
+        <div class="container">
+            <div class="input-wrapper">
+                <div class="input-group">
+                    <input type="text" placeholder="Title..." class="task-input title-input" id="task-title" />
+                    <input type="text" placeholder="About..." class="task-input about-input" id="task-desc" />
+                </div>
+                <button class="add-task-button" id="add-task">+</button>
+            </div>
+            <div class="no-task-message">
+                <p>No tasks</p>
+            </div>
+            <div class="tasks-list container"></div>
+        </div>
+    </section>
+    
+    <div id="delete-modal" class="modal">
+        <div class="modal-content">
+            <p>Delete this task?</p>
+            <div class="modal-buttons">
+                <button id="confirm-delete">Yes</button>
+                <button id="cancel-delete">No</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../scripts/main.js"></script>
+</body>
+</html>
