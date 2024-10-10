@@ -154,7 +154,7 @@ p {
 
 .task-buttons {
   display: flex;
-  gap: 10px;
+  gap: 15px; 
   align-items: center;
 }
 
@@ -173,7 +173,10 @@ p {
   width: 20px;
   height: 20px;
 }
-
+.task-button.info-button img {
+  font-size: 16px; 
+  color: #f0e3ca; 
+}
 .task-button:hover {
   background-color: #1f1e1b;
 }
