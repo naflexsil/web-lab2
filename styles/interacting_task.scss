@@ -1,0 +1,61 @@
+.edit-modal, .share-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #2a2926;
+    border-radius: 8px;
+    padding: 20px;
+    width: 90%;
+    max-width: 400px;
+}
+
+h2 {
+    color: #ff8303;
+}
+
+input, textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #a35709;
+    border-radius: 4px;
+    background-color: #1f1e1b;
+    color: #f0e3ca;
+}
+
+textarea {
+    height: 100px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.share-icons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.share-icons img {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.share-icons span {
+    font-size: 24px;
+    color: #f0e3ca;
+}

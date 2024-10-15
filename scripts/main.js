@@ -41,7 +41,7 @@ function addTask(id, title, desc) {
     const shareButton = document.createElement("button");
     shareButton.classList.add("task-button");
     const shareIcon = document.createElement("img");
-    shareIcon.src = "../src/images/share.png";
+    shareIcon.src = "../src/images/share.svg";
     shareIcon.alt = "Share";
     shareButton.appendChild(shareIcon);
 
@@ -52,7 +52,7 @@ function addTask(id, title, desc) {
     const editButton = document.createElement("button");
     editButton.classList.add("task-button");
     const editIcon = document.createElement("img");
-    editIcon.src = "../src/images/edit.png";
+    editIcon.src = "../src/images/edit.svg";
     editIcon.alt = "Edit";
     editButton.appendChild(editIcon);
 
@@ -73,35 +73,57 @@ function addTask(id, title, desc) {
     taskItem.appendChild(deleteButton);
 
     const container = document.querySelector(".tasks-list");
-    container.appendChild(taskItem);
+    container.insertBefore(taskItem, container.firstChild); 
 
     checkNoTasksMessage();
 
     taskItem.addEventListener("click", function(event) {
-        const isActive = taskItem.classList.contains("active");
+        // не было клика => скрываем
+        if (!event.target.closest('.task-button')) {
+            const isActive = taskItem.classList.contains("active");
 
-        // убир. активность со всех заметок
-        document.querySelectorAll(".task-item").forEach(item => {
-            item.classList.remove("active");
-            item.querySelector(".task-buttons").style.display = "none";
-            adjustTaskMargins(item, 0);     // сброс отступов
-        });
+            // убир. активность со всех заметок
+            document.querySelectorAll(".task-item").forEach(item => {
+                item.classList.remove("active");
+                item.querySelector(".task-buttons").style.display = "none";
+                adjustTaskMargins(item, 0);     // сброс отступов
+            });
 
-        // заметка не активна => активируем
-        if (!isActive) {
-            taskItem.classList.add("active");
-            buttonContainer.style.display = "flex"; 
-            
-            const buttonHeight = buttonContainer.offsetHeight;       // увелич. отступ у следующ. заметки
-            adjustTaskMargins(taskItem, buttonHeight);
+            // заметка не активна => активируем
+            if (!isActive) {
+                taskItem.classList.add("active");
+                buttonContainer.style.display = "flex"; 
+                
+                const buttonHeight = buttonContainer.offsetHeight;       // увелич. отступ у следующ. заметки
+                adjustTaskMargins(taskItem, buttonHeight);
+            }
         }
+    });
+
+    // привязка событий для share и edit
+    shareButton.addEventListener('click', function(event) {
+        event.stopPropagation();    // остановка всплытия соб.
+        showShareModal(title, desc);
+    });
+
+    editButton.addEventListener('click', function(event) {
+        event.stopPropagation();    // остановка всплытия соб.
+        showEditModal(title, desc, (newTitle, newDesc) => {
+            taskItem.querySelector('.task-title').textContent = newTitle;
+            taskItem.querySelector('.task-desc').textContent = newDesc;
+            saveTasks(); 
+        });
+    });
+    deleteButton.addEventListener('click', function() {
+        taskItem.remove();
+        removeTaskFromStorage(id);
+        checkNoTasksMessage();
     });
 }
 
 function showModal() {
     document.getElementById("delete-modal").style.display = "flex";
 }
-
 function hideModal() {
     document.getElementById("delete-modal").style.display = "none";
 }
@@ -133,6 +155,8 @@ function checkNoTasksMessage() {
     }
 }
 
+
+
 function saveTasks() {
     const tasks = [];
     document.querySelectorAll(".task-item").forEach(taskItem => {
@@ -153,12 +177,20 @@ function removeTaskFromStorage(id) {
 function loadTasks() {
     const tasks = JSON.parse(localStorage.getItem("tasks"));
     if (tasks) {
-        tasks.forEach(task => addTask(task.id, task.title, task.desc));
+        tasks.forEach(task => {
+            if (task.title && task.desc) {
+                addTask(task.id, task.title, task.desc);    // проверка на пустые знач.
+            } else {
+                console.error("ошибка: некорректные данные заметки", task);
+            }
+        });
+    } else {
+        console.warn("нет заметки для загрузки");
     }
 }
-loadTasks();
-checkNoTasksMessage();
 
+
+// отступы
 function adjustTaskMargins(currentTask, additionalMargin) {
     const tasks = document.querySelectorAll(".task-item");
     let currentTaskFound = false;
@@ -176,3 +208,57 @@ function adjustTaskMargins(currentTask, additionalMargin) {
         }
     });
 }
+
+
+
+// modal edit
+function showEditModal(title, desc, onSave) {
+    const modal = document.getElementById('edit-modal');
+    document.getElementById('edit-title').value = title;
+    document.getElementById('edit-desc').value = desc;
+
+    modal.style.display = 'flex';
+
+    document.getElementById('cancel-edit').addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    document.getElementById('save-edit').addEventListener('click', () => {
+        const newTitle = document.getElementById('edit-title').value;
+        const newDesc = document.getElementById('edit-desc').value;
+        onSave(newTitle, newDesc);
+        modal.style.display = 'none';
+    });
+}
+
+
+
+// modal share
+function showShareModal(title, desc) {
+    const modal = document.getElementById('share-modal');
+    modal.style.display = 'flex';
+
+    modal.querySelector('img[alt="Copy"]').addEventListener('click', () => {
+        copyToClipboard(title, desc);
+        modal.style.display = 'none';
+    });
+
+    modal.addEventListener('click', (event) => {
+        if (event.target.classList.contains('modal')) {
+            modal.style.display = 'none';
+        }
+    });
+}
+// copy
+function copyToClipboard(title, desc) {
+    const textToCopy = `${title}\n${desc}`;
+    navigator.clipboard.writeText(textToCopy).then(() => {
+        alert("Task copied to clipboard!");
+    }).catch(err => {
+        console.error('Could not copy text: ', err);
+    });
+}
+
+
+loadTasks();
+checkNoTasksMessage();

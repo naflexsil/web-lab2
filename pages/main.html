@@ -6,6 +6,7 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <link href="../styles/main.css" type="text/css" rel="stylesheet">
    <link href="../styles/delete_task_modal.css" rel="stylesheet">
+   <link href="../styles/interacting_task.css" type="text/css" rel="stylesheet">
    <title>To Do List</title>
 </head>
 <body>
@@ -27,15 +28,43 @@
         </div>
     </section>
 
-    <div id="delete-modal" class="modal">
-        <div class="modal-content">
-            <p>Delete this task?</p>
-            <div class="modal-buttons">
-                <button id="confirm-delete">Yes</button>
-                <button id="cancel-delete">No</button>
-            </div>
+
+<div id="delete-modal" class="delete-modal">
+    <div class="delete-modal-content">
+        <p>Delete this task?</p>
+        <div class="delete-modal-buttons">
+            <button id="confirm-delete">Yes</button>
+            <button id="cancel-delete">No</button>
         </div>
     </div>
+</div>
+
+
+<div id="edit-modal" class="edit-modal" style="display: none;">
+    <div class="modal-content">
+        <h2>Edit Task</h2>
+        <input type="text" id="edit-title" value="" />
+        <textarea id="edit-desc"></textarea>
+        <div class="modal-buttons">
+            <button id="cancel-edit">Cancel</button>
+            <button id="save-edit">Save</button>
+        </div>
+    </div>
+</div>
+
+
+<div id="share-modal" class="share-modal" style="display: none;">
+    <div class="modal-content">
+        <h2>Share Task</h2>
+        <div class="share-icons">
+            <img src="../src/images/copy.svg" alt="Copy" title="Copy" />
+            <img src="../src/images/vk.svg" alt="VK" />
+            <img src="../src/images/tg.svg" alt="Telegram" />
+            <img src="../src/images/wh.svg" alt="WhatsApp" />
+            <span>f</span> 
+        </div>
+    </div>
+</div>
 
     <script src="../scripts/main.js"></script>
 </body>
