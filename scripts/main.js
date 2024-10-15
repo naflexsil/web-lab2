@@ -36,7 +36,7 @@ function addTask(id, title, desc) {
 
     const buttonContainer = document.createElement("div");
     buttonContainer.classList.add("task-buttons");
-    buttonContainer.style.display = "none";  
+    buttonContainer.style.display = "none";    
 
     const shareButton = document.createElement("button");
     shareButton.classList.add("task-button");
@@ -78,10 +78,22 @@ function addTask(id, title, desc) {
     checkNoTasksMessage();
 
     taskItem.addEventListener("click", function(event) {
-        if (buttonContainer.style.display === "none") {
-            buttonContainer.style.display = "flex";  
-        } else {
-            buttonContainer.style.display = "none";
+        const isActive = taskItem.classList.contains("active");
+
+        // убир. активность со всех заметок
+        document.querySelectorAll(".task-item").forEach(item => {
+            item.classList.remove("active");
+            item.querySelector(".task-buttons").style.display = "none";
+            adjustTaskMargins(item, 0);     // сброс отступов
+        });
+
+        // заметка не активна => активируем
+        if (!isActive) {
+            taskItem.classList.add("active");
+            buttonContainer.style.display = "flex"; 
+            
+            const buttonHeight = buttonContainer.offsetHeight;       // увелич. отступ у следующ. заметки
+            adjustTaskMargins(taskItem, buttonHeight);
         }
     });
 }
@@ -134,7 +146,7 @@ function saveTasks() {
 
 function removeTaskFromStorage(id) {
     const tasks = JSON.parse(localStorage.getItem("tasks"));
-    const updatedTasks = tasks.filter(task => task.id !== id);      // убир. заметка с соответствующим id
+    const updatedTasks = tasks.filter(task => task.id !== id);      // убир. заметку с соответствующим id
     localStorage.setItem("tasks", JSON.stringify(updatedTasks));    // сохран. обновл. список
 }
 
@@ -144,6 +156,23 @@ function loadTasks() {
         tasks.forEach(task => addTask(task.id, task.title, task.desc));
     }
 }
-
 loadTasks();
 checkNoTasksMessage();
+
+function adjustTaskMargins(currentTask, additionalMargin) {
+    const tasks = document.querySelectorAll(".task-item");
+    let currentTaskFound = false;
+
+    tasks.forEach(task => {
+        if (currentTaskFound) {
+            task.style.marginTop = `${additionalMargin}px`;     // устанавл. отступ только для следующ. заметки
+            currentTaskFound = false;   // прекращ. поиск после первой найден. заметки
+        } else {
+            task.style.marginTop = '2px';   // возвращ. стандартный отступ для всех остальных
+        }
+
+        if (task === currentTask) {
+            currentTaskFound = true;    // найдена актив. заметка
+        }
+    });
+}
