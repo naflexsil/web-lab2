@@ -65,7 +65,7 @@ function addTask(id, title, desc) {
     deleteButton.textContent = "×";
     deleteButton.addEventListener("click", function() {
         taskToDelete = taskItem;  
-        showModal();  
+        showModal();  // Показываем модальное окно подтверждения удаления
     });
 
     taskItem.appendChild(taskContent);
@@ -102,27 +102,35 @@ function addTask(id, title, desc) {
 
     // привязка событий для share и edit
     shareButton.addEventListener('click', function(event) {
-        event.stopPropagation();    // остановка всплытия соб.
+        event.stopPropagation();  
         showShareModal(title, desc);
     });
 
     editButton.addEventListener('click', function(event) {
-        event.stopPropagation();    // остановка всплытия соб.
+        event.stopPropagation();   
         showEditModal(title, desc, (newTitle, newDesc) => {
             taskItem.querySelector('.task-title').textContent = newTitle;
             taskItem.querySelector('.task-desc').textContent = newDesc;
             saveTasks(); 
         });
     });
-    deleteButton.addEventListener('click', function() {
-        taskItem.remove();
-        removeTaskFromStorage(id);
-        checkNoTasksMessage();
-    });
 }
 
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        hideModal(); 
+    }
+});
+
 function showModal() {
-    document.getElementById("delete-modal").style.display = "flex";
+    const modal = document.getElementById("delete-modal");
+    modal.style.display = "flex";
+
+    modal.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            hideModal();
+        }
+    });
 }
 function hideModal() {
     document.getElementById("delete-modal").style.display = "none";
@@ -134,6 +142,12 @@ document.getElementById("confirm-delete").addEventListener("click", function() {
         taskToDelete.remove();      // удал. заметку из DOM
         removeTaskFromStorage(taskId);      // удал. заметку из localStorage по id
         checkNoTasksMessage();
+
+        const remainingTasks = document.querySelectorAll(".task-item");
+        remainingTasks.forEach(task => {
+            adjustTaskMargins(task, 0); 
+        });
+
         taskToDelete = null;
     }
     hideModal();
@@ -154,8 +168,6 @@ function checkNoTasksMessage() {
         noTasksMessage.style.display = "block";
     }
 }
-
-
 
 function saveTasks() {
     const tasks = [];
@@ -189,7 +201,6 @@ function loadTasks() {
     }
 }
 
-
 // отступы
 function adjustTaskMargins(currentTask, additionalMargin) {
     const tasks = document.querySelectorAll(".task-item");
@@ -209,8 +220,6 @@ function adjustTaskMargins(currentTask, additionalMargin) {
     });
 }
 
-
-
 // modal edit
 function showEditModal(title, desc, onSave) {
     const modal = document.getElementById('edit-modal');
@@ -219,43 +228,54 @@ function showEditModal(title, desc, onSave) {
 
     modal.style.display = 'flex';
 
-    document.getElementById('cancel-edit').addEventListener('click', () => {
-        modal.style.display = 'none';
+    modal.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
     });
 
-    document.getElementById('save-edit').addEventListener('click', () => {
+    // Удаляем предыдущие обработчики события перед добавлением нового
+    const saveEditButton = document.getElementById('save-edit');
+    const saveButtonClone = saveEditButton.cloneNode(true); 
+    saveEditButton.parentNode.replaceChild(saveButtonClone, saveEditButton);
+
+    saveButtonClone.addEventListener('click', () => {
         const newTitle = document.getElementById('edit-title').value;
         const newDesc = document.getElementById('edit-desc').value;
-        onSave(newTitle, newDesc);
+        onSave(newTitle, newDesc); // вызываем обновление заметки
+        saveTasks(); // сохраняем изменения
         modal.style.display = 'none';
     });
+
+    document.getElementById('cancel-edit').addEventListener('click', () => {
+        modal.style.display = 'none'; 
+    });
 }
-
-
 
 // modal share
 function showShareModal(title, desc) {
     const modal = document.getElementById('share-modal');
     modal.style.display = 'flex';
 
+    modal.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none'; 
+        }
+    });
+
     modal.querySelector('img[alt="Copy"]').addEventListener('click', () => {
         copyToClipboard(title, desc);
         modal.style.display = 'none';
     });
-
-    modal.addEventListener('click', (event) => {
-        if (event.target.classList.contains('modal')) {
-            modal.style.display = 'none';
-        }
-    });
 }
+
 // copy
 function copyToClipboard(title, desc) {
     const textToCopy = `${title}\n${desc}`;
     navigator.clipboard.writeText(textToCopy).then(() => {
-        alert("Task copied to clipboard!");
+        alert("☆ текст скопирован ☆");
     }).catch(err => {
-        console.error('Could not copy text: ', err);
+        console.error('could not copy text: ', err);
     });
 }
 

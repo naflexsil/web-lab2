@@ -1,10 +1,20 @@
+$modal-background: rgba(0, 0, 0, 0.7);
+$modal-content-bg: #2a2926;
+$modal-title-color: #ff8303;
+$input-bg: #1f1e1b;
+$input-border: #a35709;
+$input-text-color: #f0e3ca;
+$button-bg: #ff8303;
+$button-text-color: #fff;
+
+
 .edit-modal, .share-modal {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: $modal-background;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,50 +22,76 @@
 }
 
 .modal-content {
-    background-color: #2a2926;
+    background-color: $modal-content-bg;
     border-radius: 8px;
     padding: 20px;
     width: 90%;
     max-width: 400px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
-h2 {
-    color: #ff8303;
-}
 
 input, textarea {
     width: 100%;
     margin-bottom: 10px;
     padding: 10px;
-    border: 1px solid #a35709;
+    border: 1px solid $input-border;
     border-radius: 4px;
-    background-color: #1f1e1b;
-    color: #f0e3ca;
+    background-color: $input-bg;
+    color: $input-text-color;
+    font-size: 16px; 
+
+    &:focus {
+        border-color: darken($input-border, 10%);
+        outline: none; 
+    }
 }
 
 textarea {
     height: 100px;
 }
 
+
 .modal-buttons {
     display: flex;
     justify-content: space-between;
 }
+
+button {
+    background-color: $button-bg;
+    color: $button-text-color;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+
+    &:hover {
+        background-color: darken($button-bg, 10%);
+        transform: translateY(-2px); 
+    }
+}
+
 
 .share-icons {
     display: flex;
     justify-content: space-around;
     align-items: center;
     margin-top: 10px;
-}
 
-.share-icons img {
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-}
+    img {
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        transition: transform 0.2s;
 
-.share-icons span {
-    font-size: 24px;
-    color: #f0e3ca;
+        &:hover {
+            transform: scale(1.1); 
+        }
+    }
+
+    span {
+        font-size: 24px;
+        color: $input-text-color;
+    }
 }
