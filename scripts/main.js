@@ -3,7 +3,7 @@ document.getElementById("add-task").addEventListener("click", function() {
     const desc = document.getElementById("task-desc").value;
 
     if (title && desc) {
-        const taskId = Date.now().toString();   // генер. уник. id на основе времени
+        const taskId = Date.now().toString();   // генерируем уникальный id
         addTask(taskId, title, desc);
 
         document.getElementById("task-title").value = '';
@@ -13,12 +13,12 @@ document.getElementById("add-task").addEventListener("click", function() {
     }
 });
 
-let taskToDelete = null; 
+let taskToDelete = null;
 
 function addTask(id, title, desc) {
     const taskItem = document.createElement("div");
     taskItem.classList.add("task-item");
-    taskItem.setAttribute("data-id", id);  
+    taskItem.setAttribute("data-id", id);
 
     const taskContent = document.createElement("div");
     taskContent.classList.add("task-content");
@@ -36,7 +36,7 @@ function addTask(id, title, desc) {
 
     const buttonContainer = document.createElement("div");
     buttonContainer.classList.add("task-buttons");
-    buttonContainer.style.display = "none";    
+    buttonContainer.style.display = "none";
 
     const shareButton = document.createElement("button");
     shareButton.classList.add("task-button");
@@ -63,51 +63,52 @@ function addTask(id, title, desc) {
     const deleteButton = document.createElement("button");
     deleteButton.classList.add("delete-task-button");
     deleteButton.textContent = "×";
-    deleteButton.addEventListener("click", function() {
+    deleteButton.addEventListener("click", function(event) {
+        event.stopPropagation();    // предотвращ. вспл. соб.
         taskToDelete = taskItem;  
-        showModal();  // Показываем модальное окно подтверждения удаления
+        showDeleteModal();
+        // заметка не активна при наж. на delete
+        taskItem.classList.remove("active");
+        buttonContainer.style.display = "none"; 
     });
 
     taskItem.appendChild(taskContent);
-    taskItem.appendChild(buttonContainer); 
+    taskItem.appendChild(buttonContainer);
     taskItem.appendChild(deleteButton);
 
     const container = document.querySelector(".tasks-list");
-    container.insertBefore(taskItem, container.firstChild); 
+    container.insertBefore(taskItem, container.firstChild);
 
     checkNoTasksMessage();
 
     taskItem.addEventListener("click", function(event) {
-        // не было клика => скрываем
-        if (!event.target.closest('.task-button')) {
+        if (!event.target.closest('.task-button') && event.target !== deleteButton) {
             const isActive = taskItem.classList.contains("active");
-
-            // убир. активность со всех заметок
+    
             document.querySelectorAll(".task-item").forEach(item => {
                 item.classList.remove("active");
                 item.querySelector(".task-buttons").style.display = "none";
-                adjustTaskMargins(item, 0);     // сброс отступов
+                adjustTaskMargins(item, 0); 
             });
-
-            // заметка не активна => активируем
+    
             if (!isActive) {
                 taskItem.classList.add("active");
-                buttonContainer.style.display = "flex"; 
-                
-                const buttonHeight = buttonContainer.offsetHeight;       // увелич. отступ у следующ. заметки
+                buttonContainer.style.display = "flex";
+    
+                const buttonHeight = buttonContainer.offsetHeight;
                 adjustTaskMargins(taskItem, buttonHeight);
             }
         }
     });
+    
 
-    // привязка событий для share и edit
     shareButton.addEventListener('click', function(event) {
-        event.stopPropagation();  
+        event.stopPropagation();
         showShareModal(title, desc);
     });
 
     editButton.addEventListener('click', function(event) {
-        event.stopPropagation();   
+        event.stopPropagation();
         showEditModal(title, desc, (newTitle, newDesc) => {
             taskItem.querySelector('.task-title').textContent = newTitle;
             taskItem.querySelector('.task-desc').textContent = newDesc;
@@ -116,13 +117,7 @@ function addTask(id, title, desc) {
     });
 }
 
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        hideModal(); 
-    }
-});
-
-function showModal() {
+function showDeleteModal() {
     const modal = document.getElementById("delete-modal");
     modal.style.display = "flex";
 
@@ -132,20 +127,21 @@ function showModal() {
         }
     });
 }
+
 function hideModal() {
     document.getElementById("delete-modal").style.display = "none";
 }
 
 document.getElementById("confirm-delete").addEventListener("click", function() {
     if (taskToDelete) {
-        const taskId = taskToDelete.getAttribute("data-id");    // получ. id удаляемой заметки
-        taskToDelete.remove();      // удал. заметку из DOM
-        removeTaskFromStorage(taskId);      // удал. заметку из localStorage по id
+        const taskId = taskToDelete.getAttribute("data-id");
+        taskToDelete.remove();
+        removeTaskFromStorage(taskId);
         checkNoTasksMessage();
 
         const remainingTasks = document.querySelectorAll(".task-item");
         remainingTasks.forEach(task => {
-            adjustTaskMargins(task, 0); 
+            adjustTaskMargins(task, 0);
         });
 
         taskToDelete = null;
@@ -154,7 +150,7 @@ document.getElementById("confirm-delete").addEventListener("click", function() {
 });
 
 document.getElementById("cancel-delete").addEventListener("click", function() {
-    taskToDelete = null; 
+    taskToDelete = null;
     hideModal();
 });
 
@@ -201,6 +197,8 @@ function loadTasks() {
     }
 }
 
+
+
 // отступы
 function adjustTaskMargins(currentTask, additionalMargin) {
     const tasks = document.querySelectorAll(".task-item");
@@ -220,6 +218,8 @@ function adjustTaskMargins(currentTask, additionalMargin) {
     });
 }
 
+
+
 // modal edit
 function showEditModal(title, desc, onSave) {
     const modal = document.getElementById('edit-modal');
@@ -234,7 +234,6 @@ function showEditModal(title, desc, onSave) {
         }
     });
 
-    // Удаляем предыдущие обработчики события перед добавлением нового
     const saveEditButton = document.getElementById('save-edit');
     const saveButtonClone = saveEditButton.cloneNode(true); 
     saveEditButton.parentNode.replaceChild(saveButtonClone, saveEditButton);
@@ -251,6 +250,8 @@ function showEditModal(title, desc, onSave) {
         modal.style.display = 'none'; 
     });
 }
+
+
 
 // modal share
 function showShareModal(title, desc) {
@@ -278,7 +279,6 @@ function copyToClipboard(title, desc) {
         console.error('could not copy text: ', err);
     });
 }
-
 
 loadTasks();
 checkNoTasksMessage();

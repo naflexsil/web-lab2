@@ -1,4 +1,4 @@
-.delete-modal {
+.modal {
   font-family: "Roboto";
   display: none;
   position: fixed;
@@ -12,7 +12,7 @@
   align-items: center;
 }
 
-.delete-modal-content {
+.modal-content {
   background-color: #1B1A17;
   padding: 20px;
   border-radius: 8px;
@@ -23,7 +23,7 @@
   max-width: 600px;
 }
 
-.delete-modal-content::before {
+.modal-content::before {
   content: "";
   display: block;
   height: 4px;
@@ -36,11 +36,11 @@
   border-top-right-radius: 8px;
 }
 
-.delete-modal-buttons {
+.modal-buttons {
   margin-top: 20px;
 }
 
-.delete-modal-buttons button {
+.modal-buttons button {
   margin: 0 10px;
   padding: 10px 20px;
   border: 2px solid #A35709;
@@ -50,6 +50,6 @@
   border-radius: 4px;
 }
 
-.delete-modal-buttons button:hover {
+.modal-buttons button:hover {
   border-color: #FF8303;
 }/*# sourceMappingURL=delete_task_modal.css.map */
