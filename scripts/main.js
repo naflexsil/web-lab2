@@ -3,7 +3,7 @@ document.getElementById("add-task").addEventListener("click", function() {
     const desc = document.getElementById("task-desc").value;
 
     if (title && desc) {
-        const taskId = Date.now().toString();   // генерируем уникальный id
+        const taskId = Date.now().toString();   
         addTask(taskId, title, desc);
 
         document.getElementById("task-title").value = '';
@@ -12,8 +12,6 @@ document.getElementById("add-task").addEventListener("click", function() {
         saveTasks();
     }
 });
-
-let taskToDelete = null;
 
 function addTask(id, title, desc) {
     const taskItem = document.createElement("div");
@@ -38,43 +36,8 @@ function addTask(id, title, desc) {
     buttonContainer.classList.add("task-buttons");
     buttonContainer.style.display = "none";
 
-    const shareButton = document.createElement("button");
-    shareButton.classList.add("task-button");
-    const shareIcon = document.createElement("img");
-    shareIcon.src = "../src/images/share.svg";
-    shareIcon.alt = "Share";
-    shareButton.appendChild(shareIcon);
-
-    const infoButton = document.createElement("button");
-    infoButton.classList.add("task-button");
-    infoButton.textContent = "i";
-
-    const editButton = document.createElement("button");
-    editButton.classList.add("task-button");
-    const editIcon = document.createElement("img");
-    editIcon.src = "../src/images/edit.svg";
-    editIcon.alt = "Edit";
-    editButton.appendChild(editIcon);
-
-    buttonContainer.appendChild(shareButton);
-    buttonContainer.appendChild(infoButton);
-    buttonContainer.appendChild(editButton);
-
-    const deleteButton = document.createElement("button");
-    deleteButton.classList.add("delete-task-button");
-    deleteButton.textContent = "×";
-    deleteButton.addEventListener("click", function(event) {
-        event.stopPropagation();    // предотвращ. вспл. соб.
-        taskToDelete = taskItem;  
-        showDeleteModal();
-        // заметка не активна при наж. на delete
-        taskItem.classList.remove("active");
-        buttonContainer.style.display = "none"; 
-    });
-
     taskItem.appendChild(taskContent);
     taskItem.appendChild(buttonContainer);
-    taskItem.appendChild(deleteButton);
 
     const container = document.querySelector(".tasks-list");
     container.insertBefore(taskItem, container.firstChild);
@@ -82,77 +45,23 @@ function addTask(id, title, desc) {
     checkNoTasksMessage();
 
     taskItem.addEventListener("click", function(event) {
-        if (!event.target.closest('.task-button') && event.target !== deleteButton) {
+        if (!event.target.closest('.task-button')) {
             const isActive = taskItem.classList.contains("active");
-    
             document.querySelectorAll(".task-item").forEach(item => {
                 item.classList.remove("active");
                 item.querySelector(".task-buttons").style.display = "none";
-                adjustTaskMargins(item, 0); 
+                adjustTaskMargins(item, 0);
             });
-    
+
             if (!isActive) {
                 taskItem.classList.add("active");
                 buttonContainer.style.display = "flex";
-    
                 const buttonHeight = buttonContainer.offsetHeight;
                 adjustTaskMargins(taskItem, buttonHeight);
             }
         }
     });
-    
-
-    shareButton.addEventListener('click', function(event) {
-        event.stopPropagation();
-        showShareModal(title, desc);
-    });
-
-    editButton.addEventListener('click', function(event) {
-        event.stopPropagation();
-        showEditModal(title, desc, (newTitle, newDesc) => {
-            taskItem.querySelector('.task-title').textContent = newTitle;
-            taskItem.querySelector('.task-desc').textContent = newDesc;
-            saveTasks(); 
-        });
-    });
 }
-
-function showDeleteModal() {
-    const modal = document.getElementById("delete-modal");
-    modal.style.display = "flex";
-
-    modal.addEventListener('click', function(event) {
-        if (event.target === modal) {
-            hideModal();
-        }
-    });
-}
-
-function hideModal() {
-    document.getElementById("delete-modal").style.display = "none";
-}
-
-document.getElementById("confirm-delete").addEventListener("click", function() {
-    if (taskToDelete) {
-        const taskId = taskToDelete.getAttribute("data-id");
-        taskToDelete.remove();
-        removeTaskFromStorage(taskId);
-        checkNoTasksMessage();
-
-        const remainingTasks = document.querySelectorAll(".task-item");
-        remainingTasks.forEach(task => {
-            adjustTaskMargins(task, 0);
-        });
-
-        taskToDelete = null;
-    }
-    hideModal();
-});
-
-document.getElementById("cancel-delete").addEventListener("click", function() {
-    taskToDelete = null;
-    hideModal();
-});
 
 function checkNoTasksMessage() {
     const tasksList = document.querySelector(".tasks-list");
@@ -176,107 +85,30 @@ function saveTasks() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-function removeTaskFromStorage(id) {
-    const tasks = JSON.parse(localStorage.getItem("tasks"));
-    const updatedTasks = tasks.filter(task => task.id !== id);      // убир. заметку с соответствующим id
-    localStorage.setItem("tasks", JSON.stringify(updatedTasks));    // сохран. обновл. список
-}
-
 function loadTasks() {
     const tasks = JSON.parse(localStorage.getItem("tasks"));
     if (tasks) {
         tasks.forEach(task => {
-            if (task.title && task.desc) {
-                addTask(task.id, task.title, task.desc);    // проверка на пустые знач.
-            } else {
-                console.error("ошибка: некорректные данные заметки", task);
-            }
+            addTask(task.id, task.title, task.desc);
         });
-    } else {
-        console.warn("нет заметки для загрузки");
     }
 }
 
-
-
-// отступы
 function adjustTaskMargins(currentTask, additionalMargin) {
     const tasks = document.querySelectorAll(".task-item");
     let currentTaskFound = false;
 
     tasks.forEach(task => {
         if (currentTaskFound) {
-            task.style.marginTop = `${additionalMargin}px`;     // устанавл. отступ только для следующ. заметки
-            currentTaskFound = false;   // прекращ. поиск после первой найден. заметки
+            task.style.marginTop = `${additionalMargin}px`;
+            currentTaskFound = false;
         } else {
-            task.style.marginTop = '2px';   // возвращ. стандартный отступ для всех остальных
+            task.style.marginTop = '2px';
         }
 
         if (task === currentTask) {
-            currentTaskFound = true;    // найдена актив. заметка
+            currentTaskFound = true;
         }
-    });
-}
-
-
-
-// modal edit
-function showEditModal(title, desc, onSave) {
-    const modal = document.getElementById('edit-modal');
-    document.getElementById('edit-title').value = title;
-    document.getElementById('edit-desc').value = desc;
-
-    modal.style.display = 'flex';
-
-    modal.addEventListener('click', function(event) {
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
-
-    const saveEditButton = document.getElementById('save-edit');
-    const saveButtonClone = saveEditButton.cloneNode(true); 
-    saveEditButton.parentNode.replaceChild(saveButtonClone, saveEditButton);
-
-    saveButtonClone.addEventListener('click', () => {
-        const newTitle = document.getElementById('edit-title').value;
-        const newDesc = document.getElementById('edit-desc').value;
-        onSave(newTitle, newDesc); // вызываем обновление заметки
-        saveTasks(); // сохраняем изменения
-        modal.style.display = 'none';
-    });
-
-    document.getElementById('cancel-edit').addEventListener('click', () => {
-        modal.style.display = 'none'; 
-    });
-}
-
-
-
-// modal share
-function showShareModal(title, desc) {
-    const modal = document.getElementById('share-modal');
-    modal.style.display = 'flex';
-
-    modal.addEventListener('click', function(event) {
-        if (event.target === modal) {
-            modal.style.display = 'none'; 
-        }
-    });
-
-    modal.querySelector('img[alt="Copy"]').addEventListener('click', () => {
-        copyToClipboard(title, desc);
-        modal.style.display = 'none';
-    });
-}
-
-// copy
-function copyToClipboard(title, desc) {
-    const textToCopy = `${title}\n${desc}`;
-    navigator.clipboard.writeText(textToCopy).then(() => {
-        alert("☆ текст скопирован ☆");
-    }).catch(err => {
-        console.error('could not copy text: ', err);
     });
 }
 

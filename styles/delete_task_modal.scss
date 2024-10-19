@@ -1,6 +1,6 @@
-.modal {
+.delete-modal-style {
     font-family: "Roboto";
-    display: none;
+    display: none; 
     position: fixed;
     z-index: 1;
     left: 0;
@@ -8,49 +8,49 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.734);
-    justify-content: center;
+    display: flex;
+    justify-content: center; 
     align-items: center;
-}
 
-.modal-content {
-    background-color: #1B1A17;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    color: #f0e3ca;
-    position: relative;
-    width: 50%; 
-    max-width: 600px;
-}
+    .delete-modal-content {
+        background-color: #1B1A17;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        color: #f0e3ca;
+        position: relative;
+        width: 50%; 
+        max-width: 600px;
 
+        &::before {
+            content: "";
+            display: block;
+            height: 4px; 
+            width: 100%;
+            background-color: #A35709;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
 
-.modal-content::before {
-    content: "";
-    display: block;
-    height: 4px; 
-    width: 100%;
-    background-color: #A35709;
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-}
+        .modal-buttons {
+            margin-top: 20px;
 
-.modal-buttons {
-    margin-top: 20px;
-}
+            button {
+                margin: 0 10px;
+                padding: 10px 20px;
+                border: 2px solid #A35709;
+                background-color: #1F1E1B;
+                color: #f0e3ca;
+                cursor: pointer;
+                border-radius: 4px;
 
-.modal-buttons button {
-    margin: 0 10px;
-    padding: 10px 20px;
-    border: 2px solid #A35709;
-    background-color: #1F1E1B;
-    color: #f0e3ca;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-.modal-buttons button:hover {
-    border-color: #FF8303;
+                &:hover {
+                    border-color: #FF8303;
+                }
+            }
+        }
+    }
 }

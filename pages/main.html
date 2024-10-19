@@ -7,6 +7,10 @@
    <link href="../styles/main.css" type="text/css" rel="stylesheet">
    <link href="../styles/delete_task_modal.css" rel="stylesheet">
    <link href="../styles/interacting_task.css" type="text/css" rel="stylesheet">
+   <script src="../scripts/main.js"></script>
+   
+   <script type="module" src="../scripts/delete_button.js"></script>
+   <script type="module" src="../scripts/interactions_buttons.js"></script>
    <title>To Do List</title>
 </head>
 <body>
@@ -29,18 +33,19 @@
     </section>
 
 
-<div id="delete-modal" class="delete-modal">
-    <div class="delete-modal-content">
-        <p>Delete this task?</p>
-        <div class="delete-modal-buttons">
-            <button id="confirm-delete">Yes</button>
-            <button id="cancel-delete">No</button>
+    <div id="delete-modal" class="delete-modal-style">
+        <div class="delete-modal-content">
+            <p>Delete this task?</p>
+            <div class="modal-buttons">
+                <button id="confirm-delete" class="btn-delete-confirm">Yes</button>
+                <button id="cancel-delete" class="btn-delete-cancel">No</button>
+            </div>
         </div>
     </div>
-</div>
+    
 
 
-<div id="edit-modal" class="edit-modal" style="display: none;">
+<div id="edit-modal" class="edit-modal-style" style="display: none;">
     <div class="modal-content">
         <input type="text" id="edit-title" value="" />
         <textarea id="edit-desc"></textarea>
@@ -52,7 +57,7 @@
 </div>
 
 
-<div id="share-modal" class="share-modal" style="display: none;">
+<div id="share-modal" class="share-modal-style" style="display: none;">
     <div class="modal-content">
         <div class="share-icons">
             <img src="../src/images/copy.svg" alt="Copy" title="Copy" />
@@ -64,6 +69,5 @@
     </div>
 </div>
 
-    <script src="../scripts/main.js"></script>
 </body>
 </html>
