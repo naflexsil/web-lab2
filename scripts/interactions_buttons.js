@@ -1,3 +1,5 @@
+let lastActiveTask = null;
+
 function handleTaskClick(taskItem, title, desc) {
     if (lastActiveTask && lastActiveTask !== taskItem) {
         const lastButtonContainer = lastActiveTask.querySelector('.task-buttons-container');
@@ -18,12 +20,11 @@ function handleTaskClick(taskItem, title, desc) {
         shareButton.src = "../src/images/share.svg";
         shareButton.alt = "Share";
         shareButton.classList.add('task-icon');
-        shareButton.classList.add('share-task-button');  
-
+        
         infoButton.src = "../src/images/info.svg";
         infoButton.alt = "Info";
         infoButton.classList.add('task-icon');
-
+        
         editButton.src = "../src/images/edit.svg";
         editButton.alt = "Edit";
         editButton.classList.add('task-icon');
@@ -48,3 +49,14 @@ function handleTaskClick(taskItem, title, desc) {
 
     handleInteractions(taskItem, title, desc);
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    const allTaskItems = document.querySelectorAll('.task-item');
+
+    allTaskItems.forEach(taskItem => {
+        const buttonContainer = taskItem.querySelector('.task-buttons-container');
+        if (buttonContainer) {
+            buttonContainer.style.display = 'none'; 
+        }
+    });
+});

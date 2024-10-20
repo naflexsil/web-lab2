@@ -2,8 +2,8 @@ function handleInteractions(taskItem, title, desc) {
     const shareButton = taskItem.querySelector(".share-task-button");
 
     shareButton.addEventListener('click', function(event) {
-        event.stopPropagation();  
-        showShareModal(title, desc);  
+        event.stopPropagation();
+        showShareModal(title, desc);
     });
 }
 
@@ -17,6 +17,11 @@ function showShareModal(title, desc) {
         if (event.target === modal) {
             modal.style.display = 'none';
         }
+    });
+
+    modal.querySelector('img[title="Copy"]').addEventListener('click', function() {
+        copyToClipboard(title, desc);  
+        modal.style.display = 'none'; 
     });
 }
 
