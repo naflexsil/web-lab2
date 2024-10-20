@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .delete-modal-style {
   font-family: "Roboto";
   display: none;
@@ -35,10 +36,12 @@
   border-top-right-radius: 8px;
 }
 .delete-modal-style .delete-modal-content .modal-buttons {
-  margin-top: 20px;
+  display: flex; /* Используем Flexbox */
+  justify-content: center; /* Центрируем кнопки */
+  margin-top: 10px;
 }
 .delete-modal-style .delete-modal-content .modal-buttons button {
-  margin: 0 10px;
+  margin: 0 5px;
   padding: 10px 20px;
   border: 2px solid #A35709;
   background-color: #1F1E1B;
