@@ -7,10 +7,6 @@
    <link href="../styles/main.css" type="text/css" rel="stylesheet">
    <link href="../styles/delete_task_modal.css" rel="stylesheet">
    <link href="../styles/interacting_task.css" type="text/css" rel="stylesheet">
-   <script src="../scripts/main.js"></script>
-   
-   <script type="module" src="../scripts/delete_button.js"></script>
-   <script type="module" src="../scripts/interactions_buttons.js"></script>
    <title>To Do List</title>
 </head>
 <body>
@@ -25,7 +21,7 @@
                 </div>
                 <button class="add-task-button" id="add-task">+</button>
             </div>
-            <div class="no-task-message">
+            <div class="no-task-message" style="display: none;">
                 <p>No tasks</p>
             </div>
             <div class="tasks-list container"></div>
@@ -33,7 +29,7 @@
     </section>
 
 
-    <div id="delete-modal" class="delete-modal-style">
+    <div id="delete-modal" class="delete-modal-style" style="display: none;">
         <div class="delete-modal-content">
             <p>Delete this task?</p>
             <div class="modal-buttons">
@@ -69,5 +65,7 @@
     </div>
 </div>
 
+<script src="../scripts/main.js"></script> 
+<script src="delete_button.js"></script>
 </body>
 </html>
