@@ -36,10 +36,9 @@ function addTask(id, title, desc) {
     deleteButton.textContent = "×";
     deleteButton.classList.add("delete-task-button");
 
-    // Добавляем событие на кнопку удаления
     deleteButton.addEventListener("click", function(event) {
         event.stopPropagation();
-        console.log("Delete button clicked!"); // Добавлено для отладки
+        console.log("Delete button clicked!"); 
         handleDelete(taskItem);
     });
 
@@ -48,6 +47,11 @@ function addTask(id, title, desc) {
 
     const container = document.querySelector(".tasks-list");
     container.insertBefore(taskItem, container.firstChild);
+
+    taskItem.addEventListener("click", function() {
+        console.log('Task clicked:', title);
+        handleTaskClick(taskItem, title, desc);
+    });
 
     checkNoTasksMessage();
 }

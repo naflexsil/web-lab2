@@ -1,69 +1,50 @@
-function handleInteractions(taskItem, title, desc) {
-    const shareButton = taskItem.querySelector(".share-task-button");
-    const editButton = taskItem.querySelector(".edit-task-button");
-
-    shareButton.addEventListener('click', function(event) {
-        event.stopPropagation();
-        showShareModal(title, desc);
-    });
-
-    editButton.addEventListener('click', function(event) {
-        event.stopPropagation();
-        showEditModal(title, desc, (newTitle, newDesc) => {
-            taskItem.querySelector('.task-title').textContent = newTitle;
-            taskItem.querySelector('.task-desc').textContent = newDesc;
-            saveTasks();
-        });
-    });
-}
-
-function showEditModal(title, desc, onSave) {
-    const modal = document.getElementById('edit-modal');
-    document.getElementById('edit-title').value = title;
-    document.getElementById('edit-desc').value = desc;
-
-    modal.style.display = 'flex';
-
-    modal.addEventListener('click', function(event) {
-        if (event.target === modal) {
-            modal.style.display = 'none';
+function handleTaskClick(taskItem, title, desc) {
+    if (lastActiveTask && lastActiveTask !== taskItem) {
+        const lastButtonContainer = lastActiveTask.querySelector('.task-buttons-container');
+        if (lastButtonContainer) {
+            lastButtonContainer.style.display = 'none';
+            lastActiveTask.style.marginBottom = '10px';  
         }
-    });
+    }
 
-    const saveEditButton = document.getElementById('save-edit');
-    saveEditButton.addEventListener('click', function() {
-        const newTitle = document.getElementById('edit-title').value;
-        const newDesc = document.getElementById('edit-desc').value;
-        onSave(newTitle, newDesc);
-        modal.style.display = 'none';
-    });
+    let buttonContainer = taskItem.querySelector('.task-buttons-container');
 
-    document.getElementById('cancel-edit').addEventListener('click', function() {
-        modal.style.display = 'none';
-    });
-}
+    if (!buttonContainer) {
+        const shareButton = document.createElement('img');
+        const infoButton = document.createElement('img');
+        const editButton = document.createElement('img');
+        buttonContainer = document.createElement('div');
 
-function showShareModal(title, desc) {
-    const modal = document.getElementById('share-modal');
-    modal.style.display = 'flex';
+        shareButton.src = "../src/images/share.svg";
+        shareButton.alt = "Share";
+        shareButton.classList.add('task-icon');
+        shareButton.classList.add('share-task-button');  
 
-    modal.addEventListener('click', function(event) {
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
+        infoButton.src = "../src/images/info.svg";
+        infoButton.alt = "Info";
+        infoButton.classList.add('task-icon');
 
-    modal.querySelector('.copy-button').addEventListener('click', function() {
-        copyToClipboard(title, desc);
-        modal.style.display = 'none';
-    });
-}
+        editButton.src = "../src/images/edit.svg";
+        editButton.alt = "Edit";
+        editButton.classList.add('task-icon');
 
-function copyToClipboard(title, desc) {
-    const textToCopy = `${title}\n${desc}`;
-    navigator.clipboard.writeText(textToCopy).then(() => {
-        alert("☆ текст скопирован ☆");
-    }).catch(err => {
-        console.error('не удалось скопировать текст:', err);
-    });
+        buttonContainer.classList.add('task-buttons-container');
+        buttonContainer.appendChild(shareButton);
+        buttonContainer.appendChild(infoButton);
+        buttonContainer.appendChild(editButton);
+
+        taskItem.appendChild(buttonContainer);
+    }
+
+    buttonContainer.style.display = buttonContainer.style.display === 'flex' ? 'none' : 'flex';
+
+    if (buttonContainer.style.display === 'flex') {
+        taskItem.style.marginBottom = '60px';  
+    } else {
+        taskItem.style.marginBottom = '10px';  
+    }
+
+    lastActiveTask = taskItem;
+
+    handleInteractions(taskItem, title, desc);
 }

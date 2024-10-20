@@ -111,7 +111,7 @@ p {
 .tasks-list {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px; 
   width: 100%;
 }
 
@@ -121,10 +121,10 @@ p {
   align-items: center;
   background-color: #1f1e1b;
   border: 2px solid #a35709;
-  padding: 15px;
+  padding: 10px;
   border-radius: 8px;
   position: relative;
-  cursor: pointer; 
+  cursor: pointer;
 }
 
 

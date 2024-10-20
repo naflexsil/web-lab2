@@ -36,12 +36,12 @@
         }
 
         .modal-buttons {
-            display: flex; /* Используем Flexbox */
-            justify-content: center; /* Центрируем кнопки */
-            margin-top: 10px; // Уменьшили отступ сверху до 10px
+            display: flex; 
+            justify-content: center; 
+            margin-top: 10px; 
 
             button {
-                margin: 0 5px; // Установили отступы между кнопками
+                margin: 0 5px; 
                 padding: 10px 20px;
                 border: 2px solid #A35709;
                 background-color: #1F1E1B;
