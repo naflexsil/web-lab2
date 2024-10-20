@@ -27,12 +27,9 @@ html, body {
   color: #f0e3ca;
   text-align: center;
   position: relative;
-  margin-top: 50px;
-  margin-bottom: 50px;
+  margin: 50px 0;
 }
-
-.no-task-message::before,
-.no-task-message::after {
+.no-task-message::before, .no-task-message::after {
   content: "";
   display: block;
   width: 150px;
@@ -42,11 +39,9 @@ html, body {
   left: 50%;
   transform: translateX(-50%);
 }
-
 .no-task-message::before {
   top: -20px;
 }
-
 .no-task-message::after {
   bottom: -20px;
 }
@@ -102,7 +97,6 @@ p {
   width: 110px;
   height: 110px;
 }
-
 .add-task-button:hover {
   background-color: #1f1e1b;
 }
@@ -124,6 +118,9 @@ p {
   border-radius: 8px;
   position: relative;
   cursor: pointer;
+}
+.task-item.active .task-buttons {
+  display: flex;
 }
 
 .task-content {
@@ -168,10 +165,6 @@ p {
   height: 50px;
 }
 
-.task-item.active .task-buttons {
-  display: flex;
-}
-
 .task-button {
   background-color: transparent;
   border: 2px solid #a35709;
@@ -185,11 +178,9 @@ p {
   width: 34px;
   height: 34px;
 }
-
 .task-button:hover {
   background-color: #1f1e1b;
 }
-
 .task-button img {
   width: 20px;
   height: 20px;
@@ -208,7 +199,6 @@ p {
   align-items: center;
   justify-content: center;
 }
-
 .delete-task-button:hover {
   background-color: #1f1e1b;
 }/*# sourceMappingURL=main.css.map */
