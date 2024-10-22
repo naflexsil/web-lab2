@@ -2,35 +2,35 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.8);
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.8);
 
     .modal-content {
-        background-color: #1B1A17;
-        border-radius: 10px;
         padding: 20px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         display: flex;
         justify-content: center;
         align-items: center;
         position: relative;
+        background-color: #1B1A17;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         width: 25%; 
         height: 70px; 
 
         &::before {
+            position: absolute;
+            top: 0;
+            left: 0;
             content: "";
             display: block;
             height: 4px; 
             width: 100%;
             background-color: #A35709; 
-            position: absolute;
-            top: 0;
-            left: 0;
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
         }
@@ -42,9 +42,9 @@
         align-items: center;
 
         img {
+            margin: 0 20px; 
             width: 40px;
             height: 40px;
-            margin: 0 20px;  
             transition: transform 0.3s;
 
             &:hover {

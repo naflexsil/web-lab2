@@ -30,9 +30,9 @@ function createButtonContainer(taskItem, title, desc) {
     buttonContainer.classList.add('task-buttons-container');
 
     const buttonConfig = [
-        { src: "../src/images/share.svg", alt: "Share" },
-        { src: "../src/images/info.svg", alt: "Info", event: () => openInfoModal(title, desc) },
-        { src: "../src/images/edit.svg", alt: "Edit" }
+        { src: "../src/images/icons/share.svg", alt: "Share" },
+        { src: "../src/images/icons/info.svg", alt: "Info", event: () => openInfoModal(title, desc) },
+        { src: "../src/images/icons/edit.svg", alt: "Edit" }
     ];
 
     buttonConfig.forEach(({ src, alt, event }) => {

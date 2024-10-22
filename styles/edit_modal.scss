@@ -1,6 +1,7 @@
 .edit-modal-style {
-    font-family: "Roboto";
-    display: none; 
+    display: flex;
+    justify-content: center; 
+    align-items: center;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -8,33 +9,31 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center; 
-    align-items: center;
-
+   
     .edit-modal-content {
-        background-color: #1B1A17;
         padding: 20px;
-        border-radius: 8px;
-        text-align: center;
-        color: #f0e3ca;
         position: relative;
-        width: 50%; 
-        max-width: 600px;
-        height: 400px;
         display: flex;
         flex-direction: column;
         justify-content: space-between; 
+        background-color: #1B1A17;
+        border-radius: 8px;
+        text-align: center;
+        color: #f0e3ca;
+        width: 50%; 
+        max-width: 600px;
+        height: 400px;
+        
 
         &::before {
+            position: absolute;
+            top: 0;
+            left: 0;
             content: "";
             display: block;
             height: 4px; 
             width: 100%;
             background-color: #A35709;
-            position: absolute;
-            top: 0;
-            left: 0;
             border-top-left-radius: 8px;
             border-top-right-radius: 8px;
         }
@@ -62,8 +61,8 @@
         }
 
         input {
-            height: 50px; 
             margin-top: 45px;
+            height: 50px; 
         }
 
         textarea {
@@ -71,9 +70,9 @@
         }
 
         .modal-buttons {
+            margin-top: 20px;
             display: flex; 
             justify-content: center; 
-            margin-top: 20px;
 
             button {
                 margin: 0 5px; 
