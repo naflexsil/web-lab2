@@ -15,14 +15,14 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  background-color: #1B1A17;
+  justify-content: center;
+  background-color: #1b1a17;
   border-radius: 8px;
   text-align: center;
   color: #f0e3ca;
-  width: 50%;
-  max-width: 600px;
-  height: 400px;
+  width: 60%;
+  max-width: 800px;
+  height: auto;
 }
 .edit-modal-style .edit-modal-content::before {
   position: absolute;
@@ -32,7 +32,7 @@
   display: block;
   height: 4px;
   width: 100%;
-  background-color: #A35709;
+  background-color: #a35709;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }
@@ -42,21 +42,23 @@
   justify-content: center;
   flex-grow: 1;
 }
-.edit-modal-style .edit-modal-content input, .edit-modal-style .edit-modal-content textarea {
+.edit-modal-style .edit-modal-content input,
+.edit-modal-style .edit-modal-content textarea {
   resize: none;
   width: 100%;
-  border: 1px solid #A35709;
+  border: 1px solid #a35709;
   border-radius: 4px;
-  background-color: #1F1E1B;
+  background-color: #1f1e1b;
   color: #f0e3ca;
   font-size: 16px;
+  margin-top: 10px;
 }
-.edit-modal-style .edit-modal-content input:focus, .edit-modal-style .edit-modal-content textarea:focus {
+.edit-modal-style .edit-modal-content input:focus,
+.edit-modal-style .edit-modal-content textarea:focus {
   border-color: #733d06;
   outline: none;
 }
 .edit-modal-style .edit-modal-content input {
-  margin-top: 45px;
   height: 50px;
 }
 .edit-modal-style .edit-modal-content textarea {
@@ -70,12 +72,12 @@
 .edit-modal-style .edit-modal-content .modal-buttons button {
   margin: 0 5px;
   padding: 10px 20px;
-  border: 2px solid #A35709;
-  background-color: #1F1E1B;
+  border: 2px solid #a35709;
+  background-color: #1f1e1b;
   color: #f0e3ca;
   cursor: pointer;
   border-radius: 4px;
 }
 .edit-modal-style .edit-modal-content .modal-buttons button:hover {
-  border-color: #FF8303;
+  border-color: #ff8303;
 }/*# sourceMappingURL=edit_modal.css.map */

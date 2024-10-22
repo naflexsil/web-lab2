@@ -1,91 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link href="../styles/main.css" type="text/css" rel="stylesheet">
-   <link href="../styles/delete_task_modal.css" rel="stylesheet">
-   <link href="../styles/interacting_task.css" type="text/css" rel="stylesheet">
-   <link href="../styles/share_modal.css" type="text/css" rel="stylesheet">
-   <link href="../styles/edit_modal.css" type="text/css" rel="stylesheet">
-   <link href="../styles/info_modal.css" type="text/css" rel="stylesheet">
-   <title>To Do List</title>
-</head>
-<body>
-    <header></header>     
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../styles/main.css" type="text/css" rel="stylesheet" />
+    <link href="../styles/delete_task_modal.css" rel="stylesheet" />
+    <link
+      href="../styles/interacting_task.css"
+      type="text/css"
+      rel="stylesheet"
+    />
+    <link href="../styles/share_modal.css" type="text/css" rel="stylesheet" />
+    <link href="../styles/edit_modal.css" type="text/css" rel="stylesheet" />
+    <link href="../styles/info_modal.css" type="text/css" rel="stylesheet" />
+    <title>To Do List</title>
+  </head>
+  <body>
     <section class="no-tasks">
-        <div class="container">
-            <div class="input-wrapper">
-                <div class="input-group">
-                    <input type="text" placeholder="Title..." class="task-input title-input" id="task-title" />
-                    <input type="text" placeholder="About..." class="task-input about-input" id="task-desc" />
-                </div>
-                <button class="add-task-button" id="add-task">+</button>
-            </div>
-            <div class="no-task-message" style="display: none;">
-                <p>No tasks</p>
-            </div>
-            <div class="tasks-list container"></div>
+      <div class="container">
+        <div class="input-wrapper">
+          <div class="input-group">
+            <input
+              type="text"
+              placeholder="Title..."
+              class="task-input title-input"
+              id="task-title"
+            />
+            <input
+              type="text"
+              placeholder="About..."
+              class="task-input about-input"
+              id="task-desc"
+            />
+          </div>
+          <button class="add-task-button" id="add-task">+</button>
         </div>
+        <div class="no-task-message" style="display: none">
+          <p>No tasks</p>
+        </div>
+        <div class="tasks-list container"></div>
+      </div>
     </section>
 
-
-    <div id="delete-modal" class="delete-modal-style" style="display: none;">
-        <div class="delete-modal-content">
-            <p>Delete this task?</p>
-            <div class="modal-buttons">
-                <button id="confirm-delete" class="btn-delete-confirm">Yes</button>
-                <button id="cancel-delete" class="btn-delete-cancel">No</button>
-            </div>
+    <div id="delete-modal" class="delete-modal-style" style="display: none">
+      <div class="delete-modal-content">
+        <p>Delete this task?</p>
+        <div class="modal-buttons">
+          <button id="confirm-delete" class="btn-delete-confirm">Yes</button>
+          <button id="cancel-delete" class="btn-delete-cancel">No</button>
         </div>
-    </div>
-    
-
-    <div id="edit-modal" class="edit-modal-style" style="display: none;">
-        <div class="edit-modal-content">
-            <input type="text" id="edit-title" value="" placeholder="Enter title" />
-            <textarea id="edit-desc" placeholder="Enter description"></textarea>
-            <div class="modal-buttons">
-                <button id="cancel-edit">Cancel</button>
-                <button id="save-edit">Save</button>
-            </div>
-        </div>
+      </div>
     </div>
 
+    <div id="edit-modal" class="edit-modal-style" style="display: none">
+      <div class="edit-modal-content">
+        <input type="text" id="edit-title" value="" placeholder="Enter title" />
+        <textarea id="edit-desc" placeholder="Enter description"></textarea>
+        <div class="modal-buttons">
+          <button id="cancel-edit">Cancel</button>
+          <button id="save-edit">Save</button>
+        </div>
+      </div>
+    </div>
 
-<div id="share-modal" class="share-modal-style" style="display: none;">
-    <div class="modal-content">
+    <div id="share-modal" class="share-modal-style" style="display: none">
+      <div class="modal-content">
         <div class="share-icons">
-            <img src="../src/images/icons/copy.svg" alt="Copy" title="Copy" />
-            <img src="../src/images/icons/vk.svg" alt="VK" />
-            <img src="../src/images/icons/tg.svg" alt="Telegram" />
-            <img src="../src/images/icons/wh.svg" alt="WhatsApp" />
-            <img src="../src/images/icons/f.svg" alt="Facebook" />
+          <img src="../src/images/icons/copy.svg" alt="Copy" title="Copy" />
+          <img src="../src/images/icons/vk.svg" alt="VK" />
+          <img src="../src/images/icons/tg.svg" alt="Telegram" />
+          <img src="../src/images/icons/wh.svg" alt="WhatsApp" />
+          <img src="../src/images/icons/f.svg" alt="Facebook" />
         </div>
+      </div>
     </div>
-</div>
 
-
-<div id="info-modal" class="info-modal-style" style="display: none;">
-    <div class="info-modal-content">
+    <div id="info-modal" class="info-modal-style" style="display: none">
+      <div class="info-modal-content">
         <div class="input-container">
-            <input type="text" id="info-title" value="Заголовок заметки" readonly />
-            <textarea id="info-desc" readonly>Info</textarea>
+          <input type="text" id="info-title" readonly />
+          <textarea id="info-desc" readonly>Info</textarea>
+        </div>
+        <h3>when a student has not decomposed a large file:</h3>
+        <div class="image-container">
+          <img
+            id="info-image"
+            src="../src/images/bonk.gif"
+            alt="Bonk GIF"
+            style="cursor: pointer; width: 200px; height: auto"
+          />
         </div>
         <div class="modal-buttons">
-            <button id="close-info">Close</button>
+          <button id="close-info">Close</button>
         </div>
+      </div>
     </div>
-</div>
 
-
-
-<script src="../scripts/main.js"></script> 
-<script src="../scripts/delete_button.js"></script>
-<script src="../scripts/interactions_buttons.js"></script>
-<script src="../scripts/share_button.js"></script>
-<script src="../scripts/edit_button.js"></script>
-</body>
+    <script src="../scripts/main.js"></script>
+    <script src="../scripts/delete_button.js"></script>
+    <script src="../scripts/interactions_buttons.js"></script>
+    <script src="../scripts/share_button.js"></script>
+    <script src="../scripts/edit_button.js"></script>
+  </body>
 </html>

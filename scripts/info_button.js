@@ -1,36 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const infoModal = document.getElementById("info-modal"); 
-    const closeInfoButton = document.getElementById("close-info");
+  console.log("DOM полностью загружен");
 
-    const openModal = () => {
-        if (infoModal) {
-            infoModal.style.display = "flex"; 
-        } else {
-            console.error("Модальное окно не найдено.");
-        }
-    };
+  const infoModal = document.getElementById("info-modal");
+  const closeInfoButton = document.getElementById("close-info");
 
-    const closeModal = () => {
-        if (infoModal) {
-            infoModal.style.display = "none"; 
-        }
-    };
+  const openModal = () => {
+    infoModal.style.display = "flex";
+  };
 
-    document.body.addEventListener("click", event => {
-        if (event.target.classList.contains('info-button')) {
-            openModal();
-        }
-    });
+  const closeModal = () => {
+    infoModal.style.display = "none";
+  };
 
-    if (closeInfoButton) {
-        closeInfoButton.addEventListener("click", closeModal);
-    } else {
-        console.error("Кнопка закрытия не найдена.");
+  document.body.addEventListener("click", (event) => {
+    if (event.target.classList.contains("info-button")) {
+      openModal();
     }
+  });
 
-    window.addEventListener("click", event => {
-        if (event.target === infoModal) {
-            closeModal();
-        }
-    });
+  closeInfoButton.addEventListener("click", closeModal);
 });

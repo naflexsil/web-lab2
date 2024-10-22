@@ -21,9 +21,9 @@
   border-radius: 8px;
   text-align: center;
   color: #f0e3ca;
-  width: 50%;
-  max-width: 600px;
-  height: 400px;
+  width: 60%;
+  max-width: 800px;
+  height: auto;
 }
 .info-modal-style .info-modal-content::before {
   content: "";
@@ -43,7 +43,8 @@
   justify-content: center;
   flex-grow: 1;
 }
-.info-modal-style .info-modal-content input, .info-modal-style .info-modal-content textarea {
+.info-modal-style .info-modal-content input,
+.info-modal-style .info-modal-content textarea {
   resize: none;
   width: 100%;
   border: 1px solid #a35709;
@@ -52,7 +53,8 @@
   color: #f0e3ca;
   font-size: 16px;
 }
-.info-modal-style .info-modal-content input:focus, .info-modal-style .info-modal-content textarea:focus {
+.info-modal-style .info-modal-content input:focus,
+.info-modal-style .info-modal-content textarea:focus {
   border-color: #733d06;
   outline: none;
 }
@@ -80,4 +82,19 @@
 }
 .info-modal-style .info-modal-content .modal-buttons button:hover {
   border-color: #ff8303;
+}
+.info-modal-style .info-modal-content h3 {
+  margin: 20px 0;
+  color: #f0e3ca;
+  font-size: 18px;
+}
+.info-modal-style .info-modal-content .image-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+.info-modal-style .info-modal-content img {
+  cursor: pointer;
+  width: 100px;
+  height: auto;
 }/*# sourceMappingURL=info_modal.css.map */
