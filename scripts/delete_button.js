@@ -1,27 +1,25 @@
 let taskToDelete = null;
+const modal = document.getElementById("delete-modal");
 
 function handleDelete(taskItem) {
     taskToDelete = taskItem;
-    showDeleteModal();
+    showModal();
 }
 
-function showDeleteModal() {
-    console.log("Opening modal..."); 
-    const modal = document.getElementById("delete-modal");
-    modal.style.display = "flex"; 
-
-    modal.addEventListener('click', function(event) {
-        if (event.target === modal) {
-            hideModal();
-        }
-    });
+function showModal() {
+    modal.style.display = "flex";
 }
 
 function hideModal() {
-    const modal = document.getElementById("delete-modal");
     modal.style.display = "none";
+    taskToDelete = null;  
 }
 
+modal.addEventListener('click', function(event) {
+    if (event.target === modal) {
+        hideModal();
+    }
+});
 
 document.getElementById("confirm-delete").addEventListener("click", function() {
     if (taskToDelete) {
@@ -29,12 +27,10 @@ document.getElementById("confirm-delete").addEventListener("click", function() {
         taskToDelete.remove();  
         removeTaskFromStorage(taskId);  
         checkNoTasksMessage();  
-        taskToDelete = null; 
     }
-    hideModal();  
+    hideModal();
 });
 
 document.getElementById("cancel-delete").addEventListener("click", function() {
-    taskToDelete = null;  
     hideModal();  
 });

@@ -2,62 +2,70 @@ let lastActiveTask = null;
 
 function handleTaskClick(taskItem, title, desc) {
     if (lastActiveTask && lastActiveTask !== taskItem) {
-        const lastButtonContainer = lastActiveTask.querySelector('.task-buttons-container');
-        if (lastButtonContainer) {
-            lastButtonContainer.style.display = 'none';
-            lastActiveTask.style.marginBottom = '10px';  
-        }
+        toggleButtonContainer(lastActiveTask, false);
     }
 
-    let buttonContainer = taskItem.querySelector('.task-buttons-container');
+    let buttonContainer = taskItem.querySelector('.task-buttons-container') || createButtonContainer(taskItem, title, desc);
 
-    if (!buttonContainer) {
-        const shareButton = document.createElement('img');
-        const infoButton = document.createElement('img');
-        const editButton = document.createElement('img');
-        buttonContainer = document.createElement('div');
+    const isVisible = buttonContainer.style.display === 'flex';
+    buttonContainer.style.display = isVisible ? 'none' : 'flex';
+    taskItem.style.marginBottom = isVisible ? '10px' : '60px';
 
-        shareButton.src = "../src/images/share.svg";
-        shareButton.alt = "Share";
-        shareButton.classList.add('task-icon');
-        
-        infoButton.src = "../src/images/info.svg";
-        infoButton.alt = "Info";
-        infoButton.classList.add('task-icon');
-        
-        editButton.src = "../src/images/edit.svg";
-        editButton.alt = "Edit";
-        editButton.classList.add('task-icon');
-
-        buttonContainer.classList.add('task-buttons-container');
-        buttonContainer.appendChild(shareButton);
-        buttonContainer.appendChild(infoButton);
-        buttonContainer.appendChild(editButton);
-
-        taskItem.appendChild(buttonContainer);
-    }
-
-    buttonContainer.style.display = buttonContainer.style.display === 'flex' ? 'none' : 'flex';
-
-    if (buttonContainer.style.display === 'flex') {
-        taskItem.style.marginBottom = '60px';  
-    } else {
-        taskItem.style.marginBottom = '10px';  
-    }
-
-    lastActiveTask = taskItem;
+    lastActiveTask = isVisible ? null : taskItem;
 
     handleInteractions(taskItem, title, desc);
-    addShareButtonHandler(taskItem, title, desc)
+    addShareButtonHandler(taskItem, title, desc);
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    const allTaskItems = document.querySelectorAll('.task-item');
+function toggleButtonContainer(taskItem, isVisible) {
+    const buttonContainer = taskItem.querySelector('.task-buttons-container');
+    if (buttonContainer) {
+        buttonContainer.style.display = isVisible ? 'flex' : 'none';
+        taskItem.style.marginBottom = isVisible ? '60px' : '10px';
+    }
+}
 
-    allTaskItems.forEach(taskItem => {
-        const buttonContainer = taskItem.querySelector('.task-buttons-container');
-        if (buttonContainer) {
-            buttonContainer.style.display = 'none'; 
-        }
+function createButtonContainer(taskItem, title, desc) {
+    const buttonContainer = document.createElement('div');
+    buttonContainer.classList.add('task-buttons-container');
+
+    const buttonConfig = [
+        { src: "../src/images/share.svg", alt: "Share" },
+        { src: "../src/images/info.svg", alt: "Info", event: () => openInfoModal(title, desc) },
+        { src: "../src/images/edit.svg", alt: "Edit" }
+    ];
+
+    buttonConfig.forEach(({ src, alt, event }) => {
+        const button = document.createElement('img');
+        button.src = src;
+        button.alt = alt;
+        button.classList.add('task-icon');
+        if (event) button.addEventListener('click', event);
+        buttonContainer.appendChild(button);
     });
+
+    taskItem.appendChild(buttonContainer);
+    return buttonContainer;
+}
+
+function openInfoModal(title, desc) {
+    const infoModal = document.getElementById("info-modal");
+    const infoTitle = document.getElementById("info-title");
+    const infoDesc = document.getElementById("info-desc");
+
+    infoTitle.value = title; 
+    infoDesc.value = desc;   
+
+    infoModal.style.display = "flex";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const closeInfoButton = document.getElementById("close-info");
+    const infoModal = document.getElementById("info-modal");
+
+    if (closeInfoButton) {
+        closeInfoButton.addEventListener("click", () => {
+            infoModal.style.display = "none"; 
+        });
+    }
 });

@@ -1,53 +1,49 @@
-document.getElementById("add-task").addEventListener("click", function() {
-    const title = document.getElementById("task-title").value;
-    const desc = document.getElementById("task-desc").value;
+document.getElementById("add-task").addEventListener("click", () => {
+    const titleElement = document.getElementById("task-title");
+    const descElement = document.getElementById("task-desc");
+    const title = titleElement.value.trim();
+    const desc = descElement.value.trim();
 
     if (title && desc) {
         const taskId = Date.now().toString();
         addTask(taskId, title, desc);
 
-        document.getElementById("task-title").value = '';
-        document.getElementById("task-desc").value = '';
+        titleElement.value = '';
+        descElement.value = '';
 
-        saveTasks(); 
+        saveTasks();
     }
 });
 
+function createElementWithClass(tag, className, textContent = '') {
+    const element = document.createElement(tag);
+    element.className = className;
+    element.textContent = textContent;
+    return element;
+}
+
 function addTask(id, title, desc) {
-    const taskItem = document.createElement("div");
-    taskItem.classList.add("task-item");
-    taskItem.setAttribute("data-id", id);
+    const taskItem = createElementWithClass('div', 'task-item');
+    taskItem.setAttribute('data-id', id);
 
-    const taskContent = document.createElement("div");
-    taskContent.classList.add("task-content");
+    const taskContent = createElementWithClass('div', 'task-content');
+    const taskTitle = createElementWithClass('div', 'task-title', title);
+    const taskDesc = createElementWithClass('div', 'task-desc', desc);
 
-    const taskTitle = document.createElement("div");
-    taskTitle.classList.add("task-title");
-    taskTitle.textContent = title;
+    taskContent.append(taskTitle, taskDesc);
 
-    const taskDesc = document.createElement("div");
-    taskDesc.classList.add("task-desc");
-    taskDesc.textContent = desc;
-
-    taskContent.appendChild(taskTitle);
-    taskContent.appendChild(taskDesc);
-
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "×";
-    deleteButton.classList.add("delete-task-button");
-
-    deleteButton.addEventListener("click", function(event) {
+    const deleteButton = createElementWithClass('button', 'delete-task-button', '×');
+    deleteButton.addEventListener('click', (event) => {
         event.stopPropagation();
         handleDelete(taskItem);
     });
 
-    taskItem.appendChild(taskContent);
-    taskItem.appendChild(deleteButton);
+    taskItem.append(taskContent, deleteButton);
 
-    const container = document.querySelector(".tasks-list");
+    const container = document.querySelector('.tasks-list');
     container.insertBefore(taskItem, container.firstChild);
 
-    taskItem.addEventListener("click", function() {
+    taskItem.addEventListener('click', () => {
         console.log('Task clicked:', title);
         handleTaskClick(taskItem, title, desc);
     });
@@ -56,43 +52,32 @@ function addTask(id, title, desc) {
 }
 
 function saveTasks() {
-    const tasks = [];
-    document.querySelectorAll(".task-item").forEach(taskItem => {
-        const id = taskItem.getAttribute("data-id");
-        const title = taskItem.querySelector(".task-title").textContent;
-        const desc = taskItem.querySelector(".task-desc").textContent;
-        tasks.push({ id, title, desc });
-    });
-    localStorage.setItem("tasks", JSON.stringify(tasks)); 
+    const tasks = Array.from(document.querySelectorAll('.task-item')).map(taskItem => ({
+        id: taskItem.getAttribute('data-id'),
+        title: taskItem.querySelector('.task-title').textContent,
+        desc: taskItem.querySelector('.task-desc').textContent
+    }));
+    localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
 function loadTasks() {
-    const tasks = JSON.parse(localStorage.getItem("tasks"));
-    if (tasks) {
-        tasks.reverse().forEach(task => {
-            addTask(task.id, task.title, task.desc); 
-        });
-    }
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks.reverse().forEach(task => addTask(task.id, task.title, task.desc));
 }
 
 function removeTaskFromStorage(taskId) {
-    const tasks = JSON.parse(localStorage.getItem("tasks"));
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     const updatedTasks = tasks.filter(task => task.id !== taskId);
-    localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+    localStorage.setItem('tasks', JSON.stringify(updatedTasks));
 }
 
 function checkNoTasksMessage() {
-    const tasksList = document.querySelector(".tasks-list");
-    const noTasksMessage = document.querySelector(".no-task-message");
-
-    if (tasksList.children.length > 0) {
-        noTasksMessage.style.display = "none";
-    } else {
-        noTasksMessage.style.display = "block";
-    }
+    const tasksList = document.querySelector('.tasks-list');
+    const noTasksMessage = document.querySelector('.no-task-message');
+    noTasksMessage.style.display = tasksList.children.length > 0 ? 'none' : 'block';
 }
 
-window.addEventListener("load", () => {
+window.addEventListener('load', () => {
     loadTasks();
     checkNoTasksMessage();
 });

@@ -1,4 +1,4 @@
-.edit-modal-style {
+.info-modal-style {
     font-family: "Roboto";
     display: none; 
     position: fixed;
@@ -12,7 +12,7 @@
     justify-content: center; 
     align-items: center;
 
-    .edit-modal-content {
+    .info-modal-content {
         background-color: #1B1A17;
         padding: 20px;
         border-radius: 8px;
@@ -68,6 +68,7 @@
 
         textarea {
             height: 150px; 
+            margin-top: 10px; 
         }
 
         .modal-buttons {

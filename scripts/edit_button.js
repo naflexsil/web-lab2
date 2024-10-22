@@ -9,11 +9,11 @@ let currentTaskItem = null;
 function openEditModal(taskItem) {
     currentTaskItem = taskItem; 
 
-    const title = taskItem.querySelector(".task-title").textContent;
-    const desc = taskItem.querySelector(".task-desc").textContent;
+    const taskTitle = taskItem.querySelector(".task-title");
+    const taskDesc = taskItem.querySelector(".task-desc");
 
-    editTitleInput.value = title; 
-    editDescInput.value = desc;
+    editTitleInput.value = taskTitle.textContent;
+    editDescInput.value = taskDesc.textContent;
 
     editModal.style.display = "flex";
 }
@@ -27,25 +27,26 @@ saveEditButton.addEventListener("click", function () {
         const newTitle = editTitleInput.value;
         const newDesc = editDescInput.value;
 
-        currentTaskItem.querySelector(".task-title").textContent = newTitle;
-        currentTaskItem.querySelector(".task-desc").textContent = newDesc;
+        const taskTitle = currentTaskItem.querySelector(".task-title");
+        const taskDesc = currentTaskItem.querySelector(".task-desc");
+        taskTitle.textContent = newTitle;
+        taskDesc.textContent = newDesc;
 
         closeEditModal();
-
-        saveTasks();
+        saveTasks(); 
     }
 });
 
-cancelEditButton.addEventListener("click", function () {
-    closeEditModal();
-});
+cancelEditButton.addEventListener("click", closeEditModal);
 
 function handleInteractions(taskItem) {
     const editButton = taskItem.querySelector('.task-icon[alt="Edit"]');
 
-    editButton.addEventListener('click', function (event) {
-        event.stopPropagation(); 
-        openEditModal(taskItem); 
-    });
+    if (!editButton.dataset.bound) {
+        editButton.addEventListener('click', function (event) {
+            event.stopPropagation();
+            openEditModal(taskItem);
+        });
+        editButton.dataset.bound = true;  
+    }
 }
-
