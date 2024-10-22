@@ -6,10 +6,15 @@ const cancelEditButton = document.getElementById("cancel-edit");
 
 let currentTaskItem = null;
 
-function openEditModal(taskItem, title, desc) {
+function openEditModal(taskItem) {
     currentTaskItem = taskItem; 
+
+    const title = taskItem.querySelector(".task-title").textContent;
+    const desc = taskItem.querySelector(".task-desc").textContent;
+
     editTitleInput.value = title; 
     editDescInput.value = desc;
+
     editModal.style.display = "flex";
 }
 
@@ -35,11 +40,12 @@ cancelEditButton.addEventListener("click", function () {
     closeEditModal();
 });
 
-function handleInteractions(taskItem, title, desc) {
-    const editButton = taskItem.querySelector('.task-icon[alt="Изменить"]');
-    
+function handleInteractions(taskItem) {
+    const editButton = taskItem.querySelector('.task-icon[alt="Edit"]');
+
     editButton.addEventListener('click', function (event) {
         event.stopPropagation(); 
-        openEditModal(taskItem, title, desc); 
+        openEditModal(taskItem); 
     });
 }
+

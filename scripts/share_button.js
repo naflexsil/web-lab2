@@ -1,6 +1,7 @@
-function handleInteractions(taskItem, title, desc) {
-    const shareButton = taskItem.querySelector(".share-task-button");
+function addShareButtonHandler(taskItem, title, desc) {
+    const shareButton = taskItem.querySelector('.task-icon[alt="Share"]');
 
+    console.log(taskItem);
     shareButton.addEventListener('click', function(event) {
         event.stopPropagation();
         showShareModal(title, desc);
@@ -19,30 +20,22 @@ function showShareModal(title, desc) {
         }
     });
 
-    modal.querySelector('img[title="Copy"]').addEventListener('click', function() {
-        copyToClipboard(title, desc);  
-        modal.style.display = 'none'; 
-    });
+    const copyIcon = modal.querySelector('img[title="Copy"]');
+
+    copyIcon.removeEventListener('click', copyHandler); 
+    copyIcon.addEventListener('click', copyHandler);
+
+    function copyHandler() {
+        copyToClipboard(title, desc).then(() => {
+            alert("☆ текст скопирован ☆");
+            modal.style.display = 'none'; 
+        }).catch(err => {
+            console.error('не удалось скопировать текст:', err);
+        });
+    }
 }
 
 function copyToClipboard(title, desc) {
     const textToCopy = `${title}\n${desc}`;
-    navigator.clipboard.writeText(textToCopy).then(() => {
-        alert("☆ Текст скопирован ☆");
-    }).catch(err => {
-        console.error('Не удалось скопировать текст:', err);
-    });
+    return navigator.clipboard.writeText(textToCopy); 
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-    const copyIcon = document.querySelector('img[title="Copy"]');
-    
-    copyIcon.addEventListener('click', function() {
-        const modal = document.getElementById('share-modal');
-        const taskTitle = modal.getAttribute('data-title');
-        const taskDesc = modal.getAttribute('data-desc');
-        
-        copyToClipboard(taskTitle, taskDesc);
-        modal.style.display = 'none'; 
-    });
-});

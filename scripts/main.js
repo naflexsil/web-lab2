@@ -38,7 +38,6 @@ function addTask(id, title, desc) {
 
     deleteButton.addEventListener("click", function(event) {
         event.stopPropagation();
-        console.log("Delete button clicked!"); 
         handleDelete(taskItem);
     });
 

@@ -1,0 +1,83 @@
+.edit-modal-style {
+  font-family: "Roboto";
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.edit-modal-style .edit-modal-content {
+  background-color: #1B1A17;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  color: #f0e3ca;
+  position: relative;
+  width: 50%;
+  max-width: 600px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.edit-modal-style .edit-modal-content::before {
+  content: "";
+  display: block;
+  height: 4px;
+  width: 100%;
+  background-color: #A35709;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+.edit-modal-style .edit-modal-content .input-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 1;
+}
+.edit-modal-style .edit-modal-content input, .edit-modal-style .edit-modal-content textarea {
+  resize: none;
+  width: 100%;
+  border: 1px solid #A35709;
+  border-radius: 4px;
+  background-color: #1F1E1B;
+  color: #f0e3ca;
+  font-size: 16px;
+}
+.edit-modal-style .edit-modal-content input:focus, .edit-modal-style .edit-modal-content textarea:focus {
+  border-color: #733d06;
+  outline: none;
+}
+.edit-modal-style .edit-modal-content input {
+  height: 50px;
+  margin-top: 45px;
+}
+.edit-modal-style .edit-modal-content textarea {
+  height: 150px;
+}
+.edit-modal-style .edit-modal-content .modal-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.edit-modal-style .edit-modal-content .modal-buttons button {
+  margin: 0 5px;
+  padding: 10px 20px;
+  border: 2px solid #A35709;
+  background-color: #1F1E1B;
+  color: #f0e3ca;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.edit-modal-style .edit-modal-content .modal-buttons button:hover {
+  border-color: #FF8303;
+}/*# sourceMappingURL=edit_modal.css.map */

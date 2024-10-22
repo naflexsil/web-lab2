@@ -48,6 +48,7 @@ function handleTaskClick(taskItem, title, desc) {
     lastActiveTask = taskItem;
 
     handleInteractions(taskItem, title, desc);
+    addShareButtonHandler(taskItem, title, desc)
 }
 
 document.addEventListener("DOMContentLoaded", function() {
